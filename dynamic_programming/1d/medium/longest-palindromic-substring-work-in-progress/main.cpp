@@ -52,3 +52,39 @@ public:
         return s.substr(max_i, max_j - max_i + 1);
     }
 };
+
+// O(N) solution
+class Solution {
+public:
+    // appproach is expand from center of palindrom
+    // two ways total length can be even or odd
+    string longestPalindrome(string s) {
+        int n = s.size() ; int maxLength = 1; int startIndex = 0; // one char is always palindrome
+
+        // considering only odd lenth palindromes
+        for(int i = 0; i< n ; i++) {
+            int k = i - 1; int j = i + 1;
+            while (k >= 0 && j < n) {
+                if (s[k] != s[j]) break; // boundary
+                if (maxLength < (j - k +1)) {
+                    maxLength = j - k + 1;
+                    startIndex = k;
+                }
+                k--; j++;
+            }
+        }
+        // consider even length palindromes
+        for(int i = 0; i< n; i++) {
+            int k = i ; int j = i + 1;
+            while (k >= 0 && j < n) {
+                if (s[k] != s[j]) break; // boundary
+                if (maxLength < (j - k +1)) {
+                    maxLength = j - k + 1;
+                    startIndex = k;
+                }
+                k--; j++; 
+            }
+        }     
+        return s.substr(startIndex,  maxLength);
+    }
+};
