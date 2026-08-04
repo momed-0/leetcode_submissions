@@ -60,3 +60,26 @@ public:
         return maxi;
     }
 };
+
+
+// tabulation , still same complexity
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int> dp (nums.size(), -1);
+        dp[nums.size() - 1] = 1; // last element
+        int result = 1;
+        // start from the end and go backwards
+        for (int i = nums.size() - 1; i >= 0; i--) {
+            int maxi = 1;
+            for (int j = i+1; j < nums.size(); j++) {
+                if (nums[j] > nums[i]) {
+                    maxi = max(maxi, 1 + dp[j]); // if we found a greater element, solution is 1 + [ solution of greater]
+                }
+            }
+            dp[i] = maxi;
+            result = max(result, maxi);
+        }
+        return result;
+    }
+};
