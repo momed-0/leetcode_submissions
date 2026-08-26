@@ -33,22 +33,24 @@
 //     All the elements of nums are unique.
 //     1 <= target <= 1000
 
- class Solution {
+// Brute force solution
+class Solution {
 public:
-//TC - O(2^n) solution and O(1) space
-    int solve(int ind, int target, vector<int>& nums) {
-        if (target == 0) return 1; // base case condition
-        if (ind >= nums.size() || target < 0) return 0 ; // invalid state
+    // number of ways we can reach target
+    int solve(vector<int>& nums, int target) {
+        if (target == 0) return 1; // reached the condition
+        if (target < 0) return 0; // invalid state
 
-        int take_i_start = solve(0, target - nums[ind], nums);
-        int not_take_i_move = solve(ind+1, target, nums);
-        return take_i_start + not_take_i_move; 
+        int no_of_ways = 0;
+        // how many ways if the target can be constructed using the  elements
+        for (int  i = 0; i< nums.size(); i++) {
+            no_of_ways += solve(nums, target - nums[i]); // consider taking the current element
+        }
+        return no_of_ways;
     }
     int combinationSum4(vector<int>& nums, int target) {
-        return solve(0, target, nums);
+        return solve(nums, target);
     }
 };
-
-
 
 // Follow up: What if negative numbers are allowed in the given array? How does it change the problem? What limitation we need to add to the question to allow negative numbers?
