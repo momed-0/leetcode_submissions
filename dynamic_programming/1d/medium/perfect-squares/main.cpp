@@ -25,8 +25,7 @@
 class Solution {
 public:
     int solve(int n, vector<int>& dp) {
-        if (n < 0) return 0; // cannot reach n using perfect squares
-        if (n == 0) return 1; //possible solution of recursion
+        if (n <= 0) return 0; // cannot reach n or reached using perfect squares
         if (dp[n] > 0) return dp[n];
         int mini = INT_MAX;
         // generate all possible perfect square under n and try form
@@ -42,6 +41,24 @@ public:
     }
     int numSquares(int n) {
         vector<int> dp(n + 1 , -1);
-        return solve(n, dp) - 1;
+        return solve(n, dp);
+    }
+};
+// same TC -> O(n root(n))
+class Solution {
+public:
+    int numSquares(int n) {
+        vector<int> dp(n + 1 , -1);
+        dp[0] = 0; dp[1] = 1;
+
+        for (int i = 2; i <= n ;i++) {
+            int mini = INT_MAX;
+            for (int k = 1; k*k <= i; k++) {
+                int squared = k*k;
+                mini = min(mini, 1 +  dp[i - squared]);
+            }
+            dp[i] = mini;
+        }
+        return dp[n];
     }
 };
