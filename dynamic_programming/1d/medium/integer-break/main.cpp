@@ -40,3 +40,20 @@ public:
         return dp[n];
     }
 };
+
+// cleaned up versiob
+class Solution {
+public:
+   // TC - O(N*k) , SC - O(N)
+    int integerBreak(int n) {
+        vector<int> dp(n+1, 1); // state -> maximum product of positive integers that make up n; here k >= 1 not 2
+        for (int i = 1; i <= n; i++) {
+
+            for (int k=1; k< i; k+a+) { // generate a train of positive numbers until i
+                // two possibilites, either don't break further or break further
+                dp[i] =max(dp[i],  max(k * (i - k) , k * dp[i - k]));
+            }
+        }
+        return dp[n];
+    }
+};
