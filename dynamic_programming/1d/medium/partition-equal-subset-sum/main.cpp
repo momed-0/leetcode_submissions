@@ -77,4 +77,35 @@ public:
     }
 };
 
-
+// set approach, store every possible subset sum and start backwards
+// TC - O(n*sum) SC O(SUm)
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        if (sum % 2 != 0) {
+            return false;
+        }
+        // store the all possible subset sums in a set
+        // start from the end
+        unordered_set<int> dp;
+        dp.insert(0);
+        int target = sum / 2;
+        for (int i=nums.size()-1; i >= 0 ; i--) {
+            unordered_set<int> nextDP;
+            for (int t: dp) {
+                // goo throuh every sum in set currently
+                if (t + nums[i] == target) {
+                    return true;
+                }
+                nextDP.insert(t + nums[i]); // insert the sum we seen
+                nextDP.insert(t); // insert the case we are not taking i
+            }
+             dp = nextDP;
+        }
+         return false;
+    }
+};
