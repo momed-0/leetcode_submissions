@@ -56,3 +56,50 @@ public:
         return find_no_ways(obstacleGrid, m, n, 0,0, dp);
     }
 };
+
+class Solution {
+public:
+   // TC - O(m*n)
+   // SC - O(m+n)
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+        int m = obstacleGrid.size();
+        int n = obstacleGrid[0].size();
+        if (obstacleGrid[0][0] == 1  || obstacleGrid[m-1][n-1] == 1) return 0;
+        vector<vector<long long >> dp(m, vector<long long> (n, 0));
+        dp[m-1][n-1] = 1;
+        for (int i = m-1; i >=0; i--) {
+            for (int j= n-1; j >= 0; j--) {
+                if (i == m-1 && j == n-1) continue;
+
+                if (i +1 < m && obstacleGrid[i+1][j] == 0) dp[i][j] += dp[i+1][j];
+                if (j +1 < n && obstacleGrid[i][j+1] == 0) dp[i][j] += dp[i][j+1];
+            }
+        }
+        return dp[0][0];
+    }
+};
+
+class Solution {
+public:
+   // TC - O(m*n)
+   // SC - O(n)
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+        int m = obstacleGrid.size();
+        int n = obstacleGrid[0].size();
+       vector<uint> dp(n +1, 0);
+        dp[n - 1] = 1;
+        for (int i = m-1; i >=0; i--) {
+            for (int j= n-1; j >= 0; j--) {
+                if (obstacleGrid[i][j] == 1) {
+                    dp[j] = 0;
+                } else {
+                    // here dp[j] is answer for previous row, that is below
+                    // prv iteration calculated dp[j+1] ( since we are starting from end)
+                    // so that is right;
+                    dp[j] += dp[j+1]; // below + right // dp[j] is below , dp[j+1] right
+                }
+            }
+        }
+        return dp[0];
+    }
+};
