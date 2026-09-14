@@ -60,3 +60,25 @@ public:
         return dp[0][0];
     }
 };
+
+// space optmized tabulation
+class Solution {
+public:
+    // TC -> O(m*n) 
+    // SC - O(n)
+    int uniquePaths(int m, int n) {
+        // prev row as 1, since if we are at the bottom row, there is only 
+        // one way to move to target, ie go right
+        vector<int> prev_row(n, 1); // only one way to move along the bottom row   
+        for (int i = 0; i < m-1; i++) {
+            // since at the end column of each row, there is only one way
+            // to move to target, that is going down
+            vector<int> curr_row (n, 1);
+            for (int j = n-2; j >= 0; j--) {
+                curr_row[j] = prev_row[j] + curr_row[j+1];
+            }
+            prev_row  = curr_row;
+        }
+        return prev_row[0];
+    }
+};
