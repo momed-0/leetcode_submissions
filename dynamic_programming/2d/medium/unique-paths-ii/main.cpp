@@ -78,6 +78,30 @@ public:
         return dp[0][0];
     }
 };
+// space optimized solution
+class Solution {
+public:
+    // TC -O(M*N)
+    // SC - O(N)
+    int minPathSum(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        // n+1 since each inner loop goes till n-1
+        vector<int> dp(n + 1 , INT_MAX); // dp[j] -> result at the j'th col in a row. min sum of path
+        dp[n-1] = grid[m-1][n-1]; // starting from the end, path will be that value
+        
+        for (int i = m-1; i >= 0; i--) {
+            for (int j= n-1; j>=0; j--) {
+                if (i == m-1 && j == n-1) continue; // already calculated
+
+                // here dp[j] -> result of previous row at jth col(below of current element), calc prev iteration of i loop
+                // dp[j+1] -> right of curr element in the same row, calculated prev iteration of j loop
+                dp[j] = min(dp[j] , dp[j+1]) +  grid[i][j];
+            }
+        }
+        return dp[0];
+    }
+};
 
 class Solution {
 public:
