@@ -45,3 +45,29 @@ public:
         return solve(grid, m , n, 0, 0, dp);
     }
 };
+
+// Tabulation method
+class Solution {
+public:
+    // TC -O(M*N)
+    // SC - O(M*N)
+    int minPathSum(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        vector<vector<int>> dp(m, vector<int> (n, 0));
+        dp[m-1][n-1] = grid[m-1][n-1];
+        
+        for (int i = m-1; i >= 0; i--) {
+            for (int j= n-1; j>=0; j--) {
+                if (i == m-1 && j == n-1) continue;
+
+                int go_down = INT_MAX; int go_right = INT_MAX;
+                if (i + 1 < m) go_down = dp[i+1][j];
+                if (j + 1 < n) go_right = dp[i][j+1];
+                
+                dp[i][j] = min(go_down, go_right) + grid[i][j];
+            }
+        }
+        return dp[0][0];
+    }
+};
